@@ -1,4 +1,6 @@
-from transformers import LlamaTokenizer, LlamaForCausalLM, GenerationConfig, pipeline
+from transformers import LlamaTokenizer, LlamaForCausalLM, GenerationConfig, pipeline ,BitsAndBytesConfig
+
+quantization_config = BitsAndBytesConfig(llm_int8_enable_fp32_cpu_offload=True)
 
 class LlamaModel:
     def __init__(self):
@@ -7,6 +9,7 @@ class LlamaModel:
             "samwit/koala-7b",
             load_in_8bit=True,
             device_map='auto',
+            quantization_config=quantization_config,
         )
         self.pipeline = pipeline(
             "text-generation",
